@@ -27,3 +27,8 @@ echo "host.sh: WARNING - do not stop PlexConnect until setup is complete"
 sudo $plex_connect_dir/PlexConnect.py
 
 # TODO: copy down IP address of host from output
+
+# TODO: autostart
+# https://github.com/iBaa/PlexConnect/wiki/nix-autostart
+# https://forums.plex.tv/t/plexconnect-on-archlinux/55982
+# https://forums.plex.tv/t/plexconnect-and-raspberry-pi/83826/6
