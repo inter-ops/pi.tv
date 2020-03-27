@@ -2,22 +2,24 @@
 
 # NOTE: this file needs to be run on the host machine
 
-# TODO: instead of just aliasing, save these in .bashrc
-echo "host.sh: adding transmission aliases"
-alias transmission-start="sudo /etc/init.d/transmission-daemon start"
-alias transmission-stop="sudo /etc/init.d/transmission-daemon stop"
-alias transmission-edit="sudo nano /etc/transmission-daemon/settings.json"
+# TODO: add following lines to bashrc
+#alias transmission-start="sudo /etc/init.d/transmission-daemon start"
+#alias transmission-stop="sudo /etc/init.d/transmission-daemon stop"
+#alias transmission-edit="sudo nano /etc/transmission-daemon/settings.json"
 
 # TODO: movies and tv folders should probs be made during hdd setup
 echo "host.sh: creating media folders"
-media_folder="/media/pi/PiTV"
-mkdir $media_folder
-mkdir $media_folder/Torrents
-mkdir $media_folder/Movies
-mkdir $media_folder/TV
+media_folder="/media/pi"
+sudo mkdir $media_folder
+
+pitv_folder=$media_folder/PiTV
+sudo mkdir $pitv_folder
+sudo mkdir $pitv_folder/Torrents
+sudo mkdir $pitv_folder/Movies
+sudo mkdir $pitv_folder/TV
 
 echo "host.sh: installing transmission-daemon"
-sudo apt install transmission-daemon
+sudo apt install transmission-daemon -y
 
 echo "host.sh: stopping transmission"
 transmission-stop
