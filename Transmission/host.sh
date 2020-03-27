@@ -18,6 +18,8 @@ sudo mkdir $pitv_folder/Torrents
 sudo mkdir $pitv_folder/Movies
 sudo mkdir $pitv_folder/TV
 
+# TODO: move format-media.sh to $pitv_folder/Torrents
+
 echo "host.sh: installing transmission-daemon"
 sudo apt install transmission-daemon -y
 
