@@ -2,7 +2,7 @@
 
 This setup closely follows the [Official Install Guide](https://github.com/iBaa/PlexConnect/wiki/Install-Guide).
 
-For our case, the host is a Raspberry Pi 3 (soon to be 4 🎉) running Raspbian.
+For our case, the host is a Raspberry Pi 4 🎉 running Raspbian.
 
 ### Host Requirements
 
