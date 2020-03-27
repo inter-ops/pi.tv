@@ -5,7 +5,7 @@
 # TODO: add following lines to bashrc
 #alias transmission-start="sudo /etc/init.d/transmission-daemon start"
 #alias transmission-stop="sudo /etc/init.d/transmission-daemon stop"
-#alias transmission-edit="sudo nano /etc/transmission-daemon/settings.json"
+#alias transmission-edit="transmission-stop && sudo nano /etc/transmission-daemon/settings.json && transmission-start"
 
 # TODO: movies and tv folders should probs be made during hdd setup
 echo "host.sh: creating media folders"
