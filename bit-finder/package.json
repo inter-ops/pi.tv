@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
+    "imdb-api": "^4.0.3",
+    "lodash": "^4.17.15",
     "rarbg-api": "^1.1.3"
   }
 }

@@ -2,3 +2,4 @@ trailers.cer
 trailers.key
 trailers.pem
 **/node_modules
+**/.env
