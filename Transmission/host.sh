@@ -12,7 +12,7 @@ echo "host.sh: creating media folders"
 media_folder="/media/pi"
 sudo mkdir $media_folder
 
-pitv_folder=$media_folder/PiTV
+pitv_folder=$media_folder/VirgaExternal
 sudo mkdir $pitv_folder
 sudo mkdir $pitv_folder/Torrents
 sudo mkdir $pitv_folder/Movies

@@ -2,15 +2,20 @@
 
 # NOTE: this file needs to be run on the host machine
 
-temp_dir="~/PlexConnect"
-certs_dir="~/PlexConnectCerts"
-plex_connect_dir="/usr/local/lib/PlexConnect"
+plex_connect_version=0.7
+plex_connect_tar=V$plex_connect_version.tar.gz
+
+temp_dir=/home/pi/PlexConnect
+certs_dir=/home/pi/PlexConnectCerts
+plex_connect_dir=/usr/local/lib/PlexConnect
 
 # download and extract PlexConnect
-wget https://github.com/iBaa/PlexConnect/archive/V0.7.tar.gz
-mkdir $temp_dir
-tar -xvzf V0.7.tar.gz -C $temp_dir
-rm V0.7.tar.gz
+echo "host.sh: downloading PlexConnect"
+wget https://github.com/iBaa/PlexConnect/archive/$plex_connect_tar
+#tar -xvzf $plex_connect_tar -C $temp_dir
+tar -xvzf $plex_connect_tar
+mv PlexConnect-$plex_connect_version $temp_dir
+rm $plex_connect_tar
 
 # at this point we expect PlexConnectCerts to have been
 # transfered to host
@@ -27,6 +32,11 @@ echo "host.sh: WARNING - do not stop PlexConnect until setup is complete"
 sudo $plex_connect_dir/PlexConnect.py
 
 # TODO: copy down IP address of host from output
+
+# daemon commands
+# sudo ./PlexConnect_daemon.bash start
+# sudo ./PlexConnect_daemon.bash status
+# sudo ./PlexConnect_daemon.bash stop
 
 # TODO: autostart
 # https://github.com/iBaa/PlexConnect/wiki/nix-autostart
