@@ -1,16 +1,32 @@
 "use strict";
+const express = require('express');
+const router = express.Router();
 const { searchTorrents, searchImdb } = require("./finder");
 const parser = require("./parser");
 
 const minSeeders = 5
 const maxSize = 5000000000 // 5 GB
 
-const main = async () => {
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+/* GET users listing. */
+router.get('/users', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+router.post("/torrents", async (req, res, next) => {
   try {
+    const { name } = req.body;
+    if (!name || name === "") throw new Error("No title provided")
+
     // TODO: if not found, search rarbg directly with name
-    const imdbInfo = await searchImdb({ name: "martian", first: true })
+    const imdbInfo = await searchImdb({ name, first: true })
     //console.log(imdbInfo);
 
+    console.log(imdbInfo);
     if (!imdbInfo) console.log("Warning: Movie not found in IMDB");
 
     const torrents = await searchTorrents({ imdbId: imdbInfo.imdbid })
@@ -43,11 +59,11 @@ const main = async () => {
 
     if (chosen.seeders < minSeeders) console.warn("Warning: Seeders < 5");
     if (chosen.size > maxSize) console.warn("Warning: Size > 5GB");
+
+    return res.status(201).send(chosen)
   }
   catch(err) {
-    console.error(err);
+    return next(err)
   }
-}
-
-
-main()
+})
+module.exports = router;
