@@ -9,8 +9,8 @@
     <h3>Torrent:</h3>
 
     <table>
-      <tr><th>Title</th><th>Seeds</th><th>Peers</th><th>Size</th><th>Provider</th></tr>
-      <tr><td>{{ title }}</td><td>{{ seeds }}</td><td>{{ peers }}</td><td>{{ size }}</td><td>{{ provider }}</td></tr>
+      <tr><th>Title</th><th>Seeds</th><th>Peers</th><th>Size</th><th>Provider</th><th>Download</th></tr>
+      <tr><td>{{ title }}</td><td>{{ seeds }}</td><td>{{ peers }}</td><td>{{ size }}</td><td>{{ provider }}</td><td><button>Add</button></td></tr>
     </table>
   </body>
 </html>

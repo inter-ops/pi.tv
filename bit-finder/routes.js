@@ -8,16 +8,15 @@ const minSeeders = 5
 const maxSize = 5000000000 // 5 GB
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Bit-Finder' });
 });
 
+// TODO: get list, click row will send that torrent to transmission
 router.get("/torrents", async (req, res, next) => {
   try {
-    //const { name, shouldAdd } = req.body;
-    const name = "Blade runner"
-    const shouldAdd = false
+    const { name, shouldAdd } = req.query;
 
-    if (!name || name === "") throw new Error("No title provided")
+    if (!name || name === "") throw new Error("No name provided")
 
     const torrents = await finder.search(name)
 
@@ -38,6 +37,7 @@ router.get("/torrents", async (req, res, next) => {
     return next(err)
   }
 })
+
 
 /*
 router.post("/torrents", async (req, res, next) => {
