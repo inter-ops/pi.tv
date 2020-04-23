@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { searchTorrents, searchImdb } = require("./finder");
 const parser = require("./parser");
-
+const downloader = require("./downloader")
 const minSeeders = 5
 const maxSize = 5000000000 // 5 GB
 
@@ -19,14 +19,13 @@ router.get('/users', function(req, res, next) {
 
 router.post("/torrents", async (req, res, next) => {
   try {
-    const { name } = req.body;
+    const { name, shouldAdd } = req.body;
     if (!name || name === "") throw new Error("No title provided")
 
     // TODO: if not found, search rarbg directly with name
     const imdbInfo = await searchImdb({ name, first: true })
     //console.log(imdbInfo);
 
-    console.log(imdbInfo);
     if (!imdbInfo) console.log("Warning: Movie not found in IMDB");
 
     const torrents = await searchTorrents({ imdbId: imdbInfo.imdbid })
@@ -60,6 +59,7 @@ router.post("/torrents", async (req, res, next) => {
     if (chosen.seeders < minSeeders) console.warn("Warning: Seeders < 5");
     if (chosen.size > maxSize) console.warn("Warning: Size > 5GB");
 
+    if (shouldAdd) await downloader.addTorrent(chosen)
     return res.status(201).send(chosen)
   }
   catch(err) {
