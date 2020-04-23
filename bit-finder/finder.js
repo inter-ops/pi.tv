@@ -5,7 +5,12 @@ const rarbgApi = require('rarbg-api');
 const { Client } = require('imdb-api');
 const imdbApi = new Client({ apiKey: config.omdb.apiKey });
 
-//console.log(rarbgApi.CATEGORY);
+const TorrentSearchApi = require('torrent-search-api');
+
+TorrentSearchApi.enableProvider('1337x');
+TorrentSearchApi.enableProvider('Rarbg');
+TorrentSearchApi.enableProvider('Yts');
+TorrentSearchApi.enableProvider('Eztv');
 
 exports.searchTorrents = async ({ imdbId, name }) => {
   // NOTE: specific episode id dont seem to work
@@ -28,4 +33,22 @@ exports.searchImdb = async ({ name, first = false }) => {
   */
 
   return first ? results[0] : results;
+}
+
+exports.search = async (name) => {
+  const torrents = await TorrentSearchApi.search(name, 'Movies', 25);
+  //const torrentHtmlDetail = await TorrentSearchApi.getTorrentDetails(torrent);
+
+  return Promise.map(torrents, async torrent => {
+    try {
+      const magnet = await TorrentSearchApi.getMagnet(torrent);
+      return {
+        ...torrent,
+        magnet
+      }
+    }
+    catch(err) {
+      console.error(err);
+    }
+  })
 }

@@ -1,26 +1,45 @@
 "use strict";
 const express = require('express');
 const router = express.Router();
-const { searchTorrents, searchImdb } = require("./finder");
+const finder = require("./finder");
 const parser = require("./parser");
 const downloader = require("./downloader")
 const minSeeders = 5
 const maxSize = 5000000000 // 5 GB
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-});
-
-/* GET users listing. */
-router.get('/users', function(req, res, next) {
-  res.send('respond with a resource');
 });
 
 router.post("/torrents", async (req, res, next) => {
   try {
     const { name, shouldAdd } = req.body;
     if (!name || name === "") throw new Error("No title provided")
+
+    const torrents = await finder.search(name)
+
+    if (torrents.length === 0) {
+      console.error("No torrents found");
+      return res.status(204).send()
+    }
+
+    const chosen = torrents[0]
+    console.log("Chosen torrent:\n", chosen);
+
+    if (shouldAdd) await downloader.addTorrent(chosen)
+    return res.status(201).send(chosen)
+  }
+  catch(err) {
+    return next(err)
+  }
+})
+
+/*
+router.post("/torrents", async (req, res, next) => {
+  try {
+    const { name, shouldAdd } = req.body;
+    if (!name || name === "") throw new Error("No title provided")
+
 
     // TODO: if not found, search rarbg directly with name
     const imdbInfo = await searchImdb({ name, first: true })
@@ -66,4 +85,5 @@ router.post("/torrents", async (req, res, next) => {
     return next(err)
   }
 })
+*/
 module.exports = router;

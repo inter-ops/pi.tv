@@ -12,7 +12,7 @@ const transmission = new Transmission({
 })
 
 exports.addTorrent = async (torrent) => {
-  const res = await transmission.add(torrent.download)
+  const res = await transmission.add(torrent.magnet)
   console.log(res);
   return res;
 }

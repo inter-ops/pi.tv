@@ -1,6 +1,6 @@
 "use strict";
 require("dotenv").config();
-
+Promise = require("bluebird")
 module.exports = {
   omdb: {
     apiKey: process.env.OMDB_API_KEY
