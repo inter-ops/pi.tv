@@ -11,9 +11,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post("/torrents", async (req, res, next) => {
+router.get("/torrents", async (req, res, next) => {
   try {
-    const { name, shouldAdd } = req.body;
+    //const { name, shouldAdd } = req.body;
+    const name = "Blade runner"
+    const shouldAdd = false
+
     if (!name || name === "") throw new Error("No title provided")
 
     const torrents = await finder.search(name)
@@ -27,7 +30,9 @@ router.post("/torrents", async (req, res, next) => {
     console.log("Chosen torrent:\n", chosen);
 
     if (shouldAdd) await downloader.addTorrent(chosen)
-    return res.status(201).send(chosen)
+
+    //return res.status(201).send(chosen)
+    return res.render('torrents', chosen);
   }
   catch(err) {
     return next(err)

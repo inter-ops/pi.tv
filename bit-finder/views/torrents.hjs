@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Torrents</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Search Torrents</h1>
+    <h3>Torrent:</h3>
+
+    <table>
+      <tr><th>Title</th><th>Seeds</th><th>Peers</th><th>Size</th><th>Provider</th></tr>
+      <tr><td>{{ title }}</td><td>{{ seeds }}</td><td>{{ peers }}</td><td>{{ size }}</td><td>{{ provider }}</td></tr>
+    </table>
+  </body>
+</html>
