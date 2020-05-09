@@ -8,5 +8,6 @@ module.exports = {
   transmission: {
     username: process.env.TRANSMISSION_USERNAME,
     password: process.env.TRANSMISSION_PASSWORD
-  }
+  },
+  apiKey: process.env.API_KEY
 }
