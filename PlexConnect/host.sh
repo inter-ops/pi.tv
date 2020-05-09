@@ -42,3 +42,7 @@ sudo $plex_connect_dir/PlexConnect.py
 # https://github.com/iBaa/PlexConnect/wiki/nix-autostart
 # https://forums.plex.tv/t/plexconnect-on-archlinux/55982
 # https://forums.plex.tv/t/plexconnect-and-raspberry-pi/83826/6
+
+
+
+# TODO: scp entire bitfinder folder to host and setup + start
