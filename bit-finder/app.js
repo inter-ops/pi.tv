@@ -20,14 +20,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  if (req.headers["Authorization"]?.split("JWT ")?.[1] !== config.apiKey)
+  if (req.headers.authorization?.split("Bearer ")?.[1] !== config.apiKey)
     throw new Error("Unauthorized")
+
+  return next()
 })
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  return next(createError(404));
 });
 
 // error handler

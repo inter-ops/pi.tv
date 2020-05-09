@@ -28,7 +28,7 @@ router.get("/torrents", async (req, res, next) => {
     const chosen = torrents[0]
     console.log("Chosen torrent:\n", chosen);
 
-    if (shouldAdd) await downloader.addTorrent(chosen)
+    if (shouldAdd === "true" || shouldAdd === true) await downloader.addTorrent(chosen)
 
     //return res.status(201).send(chosen)
     return res.render('torrents', chosen);
