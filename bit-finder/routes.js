@@ -4,8 +4,9 @@ const router = express.Router();
 const finder = require("./finder");
 const parser = require("./parser");
 const downloader = require("./downloader")
-const minSeeders = 5
-const maxSize = 5000000000 // 5 GB
+
+// this is hacky but works for our purpose
+let cachedTorrents = [];
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Bit-Finder' });
@@ -13,21 +14,19 @@ router.get('/', function(req, res, next) {
 
 router.get("/torrents", async (req, res, next) => {
   try {
-    const { name, shouldAdd } = req.query;
-
+    const { name } = req.query;
     if (!name || name === "") return res.render('torrents', {});
 
-    const torrents = await finder.search(name)
+    cachedTorrents = await finder.search(name)
 
-    if (torrents.length === 0) console.log("No torrents found");
+    if (cachedTorrents.length === 0) console.log("No torrents found");
 
-    if (shouldAdd === "true" || shouldAdd === true) await downloader.addTorrent(chosen)
-
+    let torrentIdx = 0;
     let htmlResults = `
       <h3>Torrents:</h3>
       <table>
         <tr><th>Title</th><th>Seeds</th><th>Peers</th><th>Size</th><th>Provider</th><th>Download</th></tr>
-        ${torrents.map(torrent => {
+        ${cachedTorrents.map(torrent => {
           return `
             <tr>
               <td>${torrent.title}</td>
@@ -37,7 +36,7 @@ router.get("/torrents", async (req, res, next) => {
               <td>${torrent.provider}</td>
               <td>
                 <form action="/api/torrents" method="post">
-                  <button name="magnet" value=${torrent.magnet}>Add</button>
+                  <button name="torrentIdx" value=${torrentIdx++}>Add</button>
                 </form>
               </td>
             </tr>
@@ -53,13 +52,29 @@ router.get("/torrents", async (req, res, next) => {
 })
 
 router.post("/api/torrents", async (req, res, next) => {
-  const { magnet } = req.body;
-  console.log("Magnet: " + magnet);
+  try {
+    const { torrentIdx } = req.body;
+    const chosenTorrent = cachedTorrents?.[torrentIdx]
 
-  // TODO: add to transmission
+    let htmlResults;
+    if (!chosenTorrent) {
+      // TODO: add button to go back to search page
+      htmlResults = `Error!!!! Torrent not found. Please search again`
+    }
+    else {
+      console.log(`Chosen torrent at index ${torrentIdx}`, chosenTorrent);
+      await downloader.addTorrent(chosenTorrent)
+      htmlResults = `<br/><h1>Success!</h1><br/><h3>Torrent ${chosenTorrent.title} added successfully</h3>`
+    }
 
-  const htmlResults = `Success!!!`
-  return res.render('torrents', { htmlResults });
+    // ensure memory leaks dont happen, if user clicks back they could select an index
+    // from an old list and get the wrong torrent. This will ensure they reload.
+    cachedTorrents = [];
+    return res.render('torrents', { htmlResults });
+  }
+  catch(err) {
+    return next(err)
+  }
 })
 
 
