@@ -42,5 +42,3 @@ sudo $plex_connect_dir/PlexConnect.py
 # https://www.raspberrypi.org/forums/viewtopic.php?t=184319
 # TODO: if /etc/dhcpcd.enter-hook doesnt exist, need to create it
 sudo echo "#!/bin/bash;plex_connect_dir=/usr/local/lib/PlexConnect;sudo $plex_connect_dir/PlexConnect_daemon.bash start" | sudo tee -a /etc/dhcpcd.enter-hook
-
-# TODO: scp entire bitfinder folder to host and setup + start
