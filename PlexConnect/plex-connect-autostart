@@ -1,0 +1,3 @@
+#!/bin/bash
+plex_connect_dir=/usr/local/lib/PlexConnect
+sudo $plex_connect_dir/PlexConnect_daemon.bash start

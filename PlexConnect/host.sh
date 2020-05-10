@@ -38,11 +38,9 @@ sudo $plex_connect_dir/PlexConnect.py
 # sudo ./PlexConnect_daemon.bash status
 # sudo ./PlexConnect_daemon.bash stop
 
-# TODO: autostart
-# https://github.com/iBaa/PlexConnect/wiki/nix-autostart
-# https://forums.plex.tv/t/plexconnect-on-archlinux/55982
-# https://forums.plex.tv/t/plexconnect-and-raspberry-pi/83826/6
-
-
+# autostart
+# https://www.raspberrypi.org/forums/viewtopic.php?t=184319
+# TODO: if /etc/dhcpcd.enter-hook doesnt exist, need to create it
+sudo echo "#!/bin/bash;plex_connect_dir=/usr/local/lib/PlexConnect;sudo $plex_connect_dir/PlexConnect_daemon.bash start" | sudo tee -a /etc/dhcpcd.enter-hook
 
 # TODO: scp entire bitfinder folder to host and setup + start
