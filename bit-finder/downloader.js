@@ -3,7 +3,7 @@ const config = require("./config")
 
 const Transmission = require('transmission-promise')
 const transmission = new Transmission({
-  host: 'pi.tv',
+  host: 'localhost',
   port: 9091,
   username: config.transmission.username,
   password: config.transmission.password,
@@ -12,6 +12,7 @@ const transmission = new Transmission({
 })
 
 exports.addTorrent = async (torrent) => {
+  console.log("Adding torrent to transmission");
   const res = await transmission.add(torrent.magnet)
   console.log(res);
   return res;
