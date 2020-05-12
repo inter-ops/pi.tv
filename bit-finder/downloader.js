@@ -11,9 +11,11 @@ const transmission = new Transmission({
   url: "/transmission/rpc"
 })
 
-exports.addTorrent = async (torrent) => {
+exports.addTorrent = async (magnet) => {
   console.log("Adding torrent to transmission");
-  const res = await transmission.add(torrent.magnet)
+
+  console.log(magnet);
+  const res = await transmission.add(magnet)
   console.log(res);
   return res;
 }

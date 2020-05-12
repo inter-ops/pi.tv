@@ -7,10 +7,29 @@ const imdbApi = new Client({ apiKey: config.omdb.apiKey });
 
 const TorrentSearchApi = require('torrent-search-api');
 
+
+// too many providers slows search significantly, using current best
+
 TorrentSearchApi.enableProvider('1337x');
 TorrentSearchApi.enableProvider('Rarbg');
-TorrentSearchApi.enableProvider('Yts');
-TorrentSearchApi.enableProvider('Eztv');
+//TorrentSearchApi.enableProvider('Yts');
+//TorrentSearchApi.enableProvider('Eztv');
+
+
+exports.search = async (name) => {
+  const torrents = await TorrentSearchApi.search(name, 'Movies', 15);
+  //const torrentHtmlDetail = await TorrentSearchApi.getTorrentDetails(torrent);
+
+  return torrents
+}
+
+exports.getMagnet = async (torrent) => {
+  const magnet = await TorrentSearchApi.getMagnet(torrent);
+  return magnet;
+}
+
+
+// following functions are not currently used but could be useful in the future
 
 exports.searchTorrents = async ({ imdbId, name }) => {
   // NOTE: specific episode id dont seem to work
@@ -33,22 +52,4 @@ exports.searchImdb = async ({ name, first = false }) => {
   */
 
   return first ? results[0] : results;
-}
-
-exports.search = async (name) => {
-  const torrents = await TorrentSearchApi.search(name, 'Movies', 25);
-  //const torrentHtmlDetail = await TorrentSearchApi.getTorrentDetails(torrent);
-
-  return Promise.map(torrents, async torrent => {
-    try {
-      const magnet = await TorrentSearchApi.getMagnet(torrent);
-      return {
-        ...torrent,
-        magnet
-      }
-    }
-    catch(err) {
-      console.error(err);
-    }
-  })
 }

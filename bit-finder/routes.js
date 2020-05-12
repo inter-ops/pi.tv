@@ -63,7 +63,8 @@ router.post("/api/torrents", async (req, res, next) => {
     }
     else {
       console.log(`Chosen torrent at index ${torrentIdx}`, chosenTorrent);
-      await downloader.addTorrent(chosenTorrent)
+      const magnet = await finder.getMagnet(chosenTorrent)
+      await downloader.addTorrent(magnet)
       htmlResults = `<br/><h1>Success!</h1><br/><h3>Torrent ${chosenTorrent.title} added successfully</h3>`
     }
 
