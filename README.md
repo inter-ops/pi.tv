@@ -22,3 +22,4 @@ Anything needed prior to starting.
 * SSH enabled on Pi
 * Static IP address given to Pi
 * Add `{static_pi_ip} pi.tv` to your <i>/etc/hosts</i> file (on your machine, not the Pi)
+* [bit-finder](bit-finder)
